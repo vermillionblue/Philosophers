@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: danisanc <danisanc@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:41:06 by danisanc          #+#    #+#             */
-/*   Updated: 2022/10/12 20:04:39 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/10/16 22:00:15 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,23 @@ typedef struct	s_philo
 	int		philo_index; //non-zero index
 	t_rules	*rules;
 	int		dead;
+	int		left_f;
+	int		right_f;
 }				t_philo;
 
 typedef struct	s_rules
 {
 	int				n_philos;
 	pthread_mutex_t	*forks;
-	long			start_time;
+	long long			start_time;
 	double			time_to_die;
 	double			time_to_eat;
 	double			time_to_sleep;
 	int				n_times_to_eat;
 	t_philo			*philos;
 }				t_rules;
+
+//////////////// actions
+void philo_eats(t_philo *phi, t_rules *rules);
 
 #endif

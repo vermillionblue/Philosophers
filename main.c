@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: danisanc <danisanc@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:41:09 by danisanc          #+#    #+#             */
-/*   Updated: 2022/10/12 20:05:04 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/10/16 22:04:08 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,17 @@
 void	*routine_start(void* param)
 {
 	t_philo	phi;
+	struct	timeval time;
+	long long	current_time;
 
 	phi = *(t_philo *)param;
-	
+	gettimeofday(&time, NULL);
+	current_time = (time.tv_usec - phi.rules->start_time) / 1000LL;
 	printf(CYAN);
-	printf("%ld ", phi.rules->start_time);
+	printf("%lld ", current_time);
 	printf(WHITE);
- 	printf("--- %d is eating\n", phi.philo_index);  
+	printf("xx");
+	philo_eats(&phi, phi.rules);
 	return (NULL);
 }
 
@@ -43,6 +47,8 @@ void	init_data(t_rules *data, char **argv)
 	while (i < data->n_philos)
 	{
 		pthread_mutex_init(&data->forks[i], NULL);
+		data->philos[i].left_f = 0;
+		data->philos[i].right_f = 0;
 		data->philos[i].rules = data;
 		data->philos[i].philo_index = i + 1;
 		data->philos[i].dead = 0;
@@ -97,18 +103,10 @@ int	main(int argc, char **argv)
 	// start = 0;
 	(void)argv;
 	(void)argc;
-
 	gettimeofday(&time, NULL);
-	data.start_time = time.tv_sec / 1000;
-	printf("time %ld \n", data.start_time);
-	
-	
+	data.start_time = time.tv_usec;
 	data.n_philos = 4;
 	init_data(&data, argv);
-
-	
-
-
 	init_threads(&data);
 	return (1);
 }
