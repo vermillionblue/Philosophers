@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: danisanc <danisanc@students.42wolfsburg    +#+  +:+       +#+         #
+#    By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/04 11:40:59 by danisanc          #+#    #+#              #
-#    Updated: 2022/11/12 21:19:34 by danisanc         ###   ########.fr        #
+#    Updated: 2022/11/18 23:21:29 by danisanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-SRC = main.c actions.c utils.c ft_atol.c time.c init.c checker.c
+SRC = main.c actions.c utils.c ft_atol.c time.c init.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -25,7 +25,7 @@ RM = rm -f
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) -pthread $(OBJ) -o $(NAME) 
+	$(CC) -pthread $(OBJ) -o $(NAME) -fsanitize=address -g 
 
 clean:
 	$(RM) *.o

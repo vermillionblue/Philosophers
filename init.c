@@ -6,21 +6,11 @@
 /*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 15:45:52 by danisanc          #+#    #+#             */
-/*   Updated: 2022/11/18 20:51:57 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/11/18 23:29:34 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	init_mutexes(t_rules *data)
-{
-	pthread_mutex_init(&data->start_time_m, NULL);
-	pthread_mutex_init(&data->time_to_die_m, NULL);
-	pthread_mutex_init(&data->time_to_eat_m, NULL);
-	pthread_mutex_init(&data->time_to_sleep_m, NULL);
-	pthread_mutex_init(&data->n_times_to_eat_m, NULL);
-	pthread_mutex_init(&data->exit_m , NULL);
-}
 
 void	enter_data(char **argv, t_rules *rules)
 {
@@ -45,19 +35,15 @@ void	init_data(t_rules *data)
 	data->philos = malloc(data->n_philos * sizeof(t_philo));
 	while (i < data->n_philos)
 	{
-		pthread_mutex_init(&data->philos[i].lastmeal_m, NULL);
-		pthread_mutex_init(&data->philos[i].meals_eaten_m, NULL);
 		pthread_mutex_init(&data->forks[i], NULL);
-
 		data->philos[i].rules = data;
 		data->philos[i].philo_index = i;
-		data->philos[i].dead = 0; //false
+		data->philos[i].dead = 0;
 		data->philos[i].lastmeal = 0;
 		data->philos[i].meals_eaten = 0;
 		i++;
 	}
 	assign_forks(data);
-	init_mutexes(data);
 }
 
 int	init_threads(t_rules *data)
@@ -67,7 +53,8 @@ int	init_threads(t_rules *data)
 	i = 0;
 	while (i < data->n_philos)
 	{
-		if (pthread_create(&data->philos[i].pt_id, NULL, &routine_start, (void *)&data->philos[i]) != 0)
+		if (pthread_create(&data->philos[i].pt_id, NULL, &routine_start, \
+		(void *)&data->philos[i]) != 0)
 		{
 			perror("pthread create error\n");
 			exit (EXIT_FAILURE);
@@ -77,12 +64,12 @@ int	init_threads(t_rules *data)
 	return (0);
 }
 
-void join_threads(t_rules *data)
+void	join_threads(t_rules *data)
 {
 	int	i;
 
 	i = 0;
-	while (i <  data->n_philos)
+	while (i < data->n_philos)
 	{
 		if (pthread_join(data->philos[i].pt_id, NULL) != 0)
 		{
