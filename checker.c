@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danisanc <danisanc@students.42wolfsburg    +#+  +:+       +#+        */
+/*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 09:25:07 by danisanc          #+#    #+#             */
-/*   Updated: 2022/11/12 22:49:53 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/11/18 16:47:25 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	check_lastmeal(t_rules *data)
 		i = 0;
 		while(i < data->n_philos)
 		{
-			pthread_mutex_lock(data->philos[i].lastmeal_m);
+			pthread_mutex_lock(&data->philos[i].lastmeal_m);
 			if (data->philos[i].lastmeal >= data->time_to_die)
 			{
 				//pthread_mutex_lock(data->exit_m);
@@ -29,7 +29,7 @@ void	check_lastmeal(t_rules *data)
 				printf("stop\n");
 				//pthread_mutex_unlock(data->exit_m);
 			}
-			pthread_mutex_unlock(data->philos[i].lastmeal_m);
+			pthread_mutex_unlock(&data->philos[i].lastmeal_m);
 			pthread_mutex_lock(&data->philos[i].meals_eaten_m);
 			printf("%d vs %d\n", data->philos[i].meals_eaten, data->n_times_to_eat);
 			if (data->philos[i].meals_eaten >= data->n_times_to_eat)

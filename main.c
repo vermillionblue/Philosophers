@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danisanc <danisanc@students.42wolfsburg    +#+  +:+       +#+        */
+/*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:41:09 by danisanc          #+#    #+#             */
-/*   Updated: 2022/11/12 22:51:37 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/11/18 18:05:43 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	main(int argc, char **argv)
 	enter_data(argv, &data);
 	init_data(&data);
 	init_threads(&data);
-	////check functions
+	//check functions
 	//check_lastmeal(&data);
 	join_threads(&data);
 	/// free(all)

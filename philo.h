@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danisanc <danisanc@students.42wolfsburg    +#+  +:+       +#+        */
+/*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:41:06 by danisanc          #+#    #+#             */
-/*   Updated: 2022/11/12 22:26:16 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/11/18 16:38:25 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,38 +35,38 @@ void		check_input(char **argv, int argc);
 long int	ft_atol(const char *str);
 int			ft_isdigit(int c);
 void		enter_data(char **argv, t_rules *rules);
-long long		get_time(long long start_time);
+long		get_time(long start_time);
 
 typedef struct	s_philo
 {
 	pthread_t		pt_id;
 	int				philo_index; //non-zero index
-	long long		lastmeal;
-	pthread_mutex_t	*lastmeal_m;
+	long			lastmeal;
+	pthread_mutex_t	lastmeal_m;
 	t_rules			*rules;
 	int				meals_eaten;
 	pthread_mutex_t	meals_eaten_m;
 	int				dead;
-	pthread_mutex_t	*left_f;
-	pthread_mutex_t	*right_f;
+	pthread_mutex_t	left_f;
+	pthread_mutex_t	right_f;
 }				t_philo;
 
 typedef struct	s_rules
 {
 	int					n_philos;
 	pthread_mutex_t		*forks;
-	pthread_mutex_t		*start_time_m;
-	long long			start_time;
-	pthread_mutex_t		*time_to_die_m;
+	pthread_mutex_t		start_time_m;
+	long				start_time;
+	pthread_mutex_t		time_to_die_m;
 	int					time_to_die;
-	pthread_mutex_t		*time_to_eat_m;
+	pthread_mutex_t		time_to_eat_m;
 	int					time_to_eat;
-	pthread_mutex_t		*time_to_sleep_m;
+	pthread_mutex_t		time_to_sleep_m;
 	int					time_to_sleep;
-	pthread_mutex_t		*n_times_to_eat_m;
+	pthread_mutex_t		n_times_to_eat_m;
 	int					n_times_to_eat;
 	int					exit;
-	pthread_mutex_t		*exit_m;
+	pthread_mutex_t		exit_m;
 	t_philo				*philos;
 }				t_rules;
 //// utils

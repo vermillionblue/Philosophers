@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danisanc <danisanc@students.42wolfsburg    +#+  +:+       +#+        */
+/*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 15:45:52 by danisanc          #+#    #+#             */
-/*   Updated: 2022/11/12 22:26:34 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/11/18 18:05:29 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,12 @@
 
 void	init_mutexes(t_rules *data)
 {
-	data->start_time_m = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(data->start_time_m, NULL);
-	data->time_to_die_m = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(data->time_to_die_m, NULL);
-	data->time_to_eat_m = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(data->time_to_eat_m, NULL);
-	data->time_to_sleep_m = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(data->time_to_sleep_m, NULL);
-	data->n_times_to_eat_m = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(data->n_times_to_eat_m, NULL);
-	data->exit_m = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(data->exit_m , NULL);
+	pthread_mutex_init(&data->start_time_m, NULL);
+	pthread_mutex_init(&data->time_to_die_m, NULL);
+	pthread_mutex_init(&data->time_to_eat_m, NULL);
+	pthread_mutex_init(&data->time_to_sleep_m, NULL);
+	pthread_mutex_init(&data->n_times_to_eat_m, NULL);
+	pthread_mutex_init(&data->exit_m , NULL);
 }
 
 void	enter_data(char **argv, t_rules *rules)
@@ -45,16 +39,15 @@ void	init_data(t_rules *data)
 
 	i = 0;
 	data->start_time = get_time(0);
-	data->philos = malloc(sizeof(t_philo) * (data->n_philos));
 	data->forks = malloc(sizeof(pthread_mutex_t) * (data->n_philos));
+	data->philos = malloc(data->n_philos * sizeof(t_philo));
 	while (i < data->n_philos)
 	{
-		data->philos[i].lastmeal_m = malloc(sizeof(pthread_mutex_t));
-		pthread_mutex_init(data->philos[i].lastmeal_m, NULL);
+		pthread_mutex_init(&data->philos[i].lastmeal_m, NULL);
 		pthread_mutex_init(&data->philos[i].meals_eaten_m, NULL);
 		pthread_mutex_init(&data->forks[i], NULL);
 		data->philos[i].rules = data;
-		data->philos[i].philo_index = i + 1;
+		data->philos[i].philo_index = i;
 		data->philos[i].dead = 0; //false
 		data->philos[i].meals_eaten = 0;
 		data->philos[i].lastmeal = data->start_time;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danisanc <danisanc@students.42wolfsburg    +#+  +:+       +#+        */
+/*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 14:11:18 by danisanc          #+#    #+#             */
-/*   Updated: 2022/11/12 21:06:07 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/11/18 16:45:38 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // tv_sec : It is the number of seconds since the epoch.
 // tv_usec :It is additional microseconds after number of seconds calculation since the epoch
 
-long long	get_time(long long start_time)
+long	get_time(long start_time)
 {
 	struct	timeval time;
 
@@ -25,9 +25,9 @@ long long	get_time(long long start_time)
 
 void	print_time_n_index(t_philo *philo, char* str, char* colorcode)
 {
-	pthread_mutex_lock(philo->rules->start_time_m);
-	printf("%s%lld ms %s", CYAN, get_time(philo->rules->start_time), WHITE);
+	pthread_mutex_lock(&philo->rules->start_time_m);
+	printf("%s%ld ms %s", CYAN, get_time(philo->rules->start_time), WHITE);
 	printf("%d %s%s%s\n", philo->philo_index, colorcode, str, WHITE);
-	pthread_mutex_unlock(philo->rules->start_time_m);
+	pthread_mutex_unlock(&philo->rules->start_time_m);
 	philo->meals_eaten++;
 }
