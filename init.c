@@ -6,7 +6,7 @@
 /*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 15:45:52 by danisanc          #+#    #+#             */
-/*   Updated: 2022/11/18 18:05:29 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/11/18 20:51:57 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	enter_data(char **argv, t_rules *rules)
 	rules->exit = 0;
 	if (argv[5])
 		rules->n_times_to_eat = ft_atol(argv[5]);
+	else
+		rules->n_times_to_eat = -1;
 }
 
 void	init_data(t_rules *data)
@@ -46,11 +48,12 @@ void	init_data(t_rules *data)
 		pthread_mutex_init(&data->philos[i].lastmeal_m, NULL);
 		pthread_mutex_init(&data->philos[i].meals_eaten_m, NULL);
 		pthread_mutex_init(&data->forks[i], NULL);
+
 		data->philos[i].rules = data;
 		data->philos[i].philo_index = i;
 		data->philos[i].dead = 0; //false
+		data->philos[i].lastmeal = 0;
 		data->philos[i].meals_eaten = 0;
-		data->philos[i].lastmeal = data->start_time;
 		i++;
 	}
 	assign_forks(data);

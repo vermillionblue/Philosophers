@@ -6,7 +6,7 @@
 /*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:41:06 by danisanc          #+#    #+#             */
-/*   Updated: 2022/11/18 16:38:25 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/11/18 20:05:39 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ typedef struct	s_rules
 	pthread_mutex_t		start_time_m;
 	long				start_time;
 	pthread_mutex_t		time_to_die_m;
-	int					time_to_die;
+	long					time_to_die;
 	pthread_mutex_t		time_to_eat_m;
-	int					time_to_eat;
+	long					time_to_eat;
 	pthread_mutex_t		time_to_sleep_m;
-	int					time_to_sleep;
+	long					time_to_sleep;
 	pthread_mutex_t		n_times_to_eat_m;
 	int					n_times_to_eat;
 	int					exit;

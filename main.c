@@ -6,7 +6,7 @@
 /*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:41:09 by danisanc          #+#    #+#             */
-/*   Updated: 2022/11/18 18:05:43 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/11/18 20:56:45 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,22 @@
 
 void	*routine_start(void* param)
 {
-	t_philo	phi;
+	t_philo	*phi;
 
-	phi = *(t_philo *)param;
-	if ((phi.philo_index) % 2 == 0)
+	phi = (t_philo *)param;
+	if ((phi->philo_index) % 2 == 0)
 		usleep(5000);
-	while(1)
+	while(phi->rules->exit == 0)
 	{
-		philo_eats(&phi);
-		philo_sleeps(&phi);
-		philo_thinks(&phi);
-		// pthread_mutex_lock(phi.rules->exit_m);
-		// if (phi.rules->exit == 1)
-		// 	break ;
-		// pthread_mutex_unlock(phi.rules->exit_m);
+		philo_eats(phi);
+		if (phi->rules->exit == 1)
+			break ;
+		philo_sleeps(phi);
+		if (phi->rules->exit == 1)
+			break ;
+		philo_thinks(phi);
+		if (phi->rules->exit == 1)
+			break ;
 	}
 	return (NULL);
 }
@@ -49,7 +51,7 @@ int	main(int argc, char **argv)
 	init_data(&data);
 	init_threads(&data);
 	//check functions
-	//check_lastmeal(&data);
+	check_lastmeal(&data);
 	join_threads(&data);
 	/// free(all)
 	return (1);
