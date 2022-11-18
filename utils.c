@@ -6,21 +6,13 @@
 /*   By: danisanc <danisanc@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 17:50:28 by danisanc          #+#    #+#             */
-/*   Updated: 2022/11/07 08:59:46 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/11/12 18:30:17 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	print_time_n_index(t_philo *philo)
-{
-	printf(CYAN);
-	pthread_mutex_lock(philo->rules->start_time_m);
-	printf("%ld ", get_time(philo->rules->start_time));
-	pthread_mutex_unlock(philo->rules->start_time_m);
-	printf(WHITE);
-	printf("%d is ", philo->philo_index);
-}
+
 
 int	ft_isdigit(int c)
 {

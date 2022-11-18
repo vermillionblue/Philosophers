@@ -6,13 +6,13 @@
 #    By: danisanc <danisanc@students.42wolfsburg    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/04 11:40:59 by danisanc          #+#    #+#              #
-#    Updated: 2022/11/07 09:25:02 by danisanc         ###   ########.fr        #
+#    Updated: 2022/11/12 21:19:34 by danisanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-SRC = main.c actions.c utils.c ft_atol.c time.c init.c death.c
+SRC = main.c actions.c utils.c ft_atol.c time.c init.c checker.c
 
 OBJ = $(SRC:.c=.o)
 

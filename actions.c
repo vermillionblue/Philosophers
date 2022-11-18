@@ -6,7 +6,7 @@
 /*   By: danisanc <danisanc@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 19:50:41 by danisanc          #+#    #+#             */
-/*   Updated: 2022/11/07 09:42:38 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/11/12 22:49:12 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,46 +28,61 @@ void	assign_forks(t_rules *data)
 	}
 }
 
-void	update_lastmeal(t_philo *philo, t_rules *rules)
+void	update_lastmeal(t_philo *philo)
 {
-	pthread_mutex_lock(rules->start_time_m);
-	philo->lastmeal = get_time(rules->start_time);
-	pthread_mutex_unlock(rules->start_time_m);
+	pthread_mutex_lock(philo->rules->start_time_m);
+	pthread_mutex_lock(philo->lastmeal_m);
+	philo->lastmeal = get_time(philo->rules->start_time);
+	pthread_mutex_unlock(philo->lastmeal_m);
+	pthread_mutex_unlock(philo->rules->start_time_m);
 	philo->meals_eaten++;
 }
 
-void philo_eats(t_philo *philo, t_rules *rules)
+void philo_eats(t_philo *philo)
 {
-	//print has taken left/right fork
+	/// takes forks and starts eating
 	pthread_mutex_lock(philo->left_f);
+	print_time_n_index(philo, "has taken left fork", WHITE);
 	pthread_mutex_lock(philo->right_f);
-	print_time_n_index(philo);
-	printf(YELLOW);
-	printf("eating\n");
-	printf(WHITE);
-	pthread_mutex_lock(rules->time_to_eat_m);
-	usleep(rules->time_to_eat * 1000);
-	pthread_mutex_unlock(rules->time_to_eat_m);
+	print_time_n_index(philo, "has taken right fork", WHITE);
+	print_time_n_index(philo, "is eating", YELLOW);
+
+	////// eats for time_to_eat milliseconds
+	// pthread_mutex_lock(philo->rules->time_to_eat_m);
+	// usleep(philo->rules->time_to_eat * 1000);
+	// pthread_mutex_lock(philo->rules->time_to_eat_m);
+	///////////// eats
+	long long end;
+	pthread_mutex_lock(philo->rules->time_to_eat_m);
+	end = get_time(0) + philo->rules->time_to_eat;
+	while (get_time(0) < end)
+		usleep(philo->rules->time_to_eat / 1000);
+	pthread_mutex_unlock(philo->rules->time_to_eat_m);
+	//////////////////// stops eating and releases forks
 	pthread_mutex_unlock(philo->left_f);
 	pthread_mutex_unlock(philo->right_f);
-	update_lastmeal(philo, rules);
+	update_lastmeal(philo);
+	//pthread_mutex_lock(philo->rules->n_times_to_eat_m);
+	// printf("%d vs %d", philo->rules->n_times_to_eat, philo->meals_eaten);
+	// print_time_n_index(philo, "has eaten x times", WHITE);
+	//pthread_mutex_unlock(philo->rules->n_times_to_eat_m);
 }
 
 void	philo_thinks(t_philo *philo)
 {
-	print_time_n_index(philo);
-	printf(PURPLE);
-	printf("thinking\n");
-	printf(WHITE);
+	print_time_n_index(philo, "is thinking", PURPLE);
 }
 
 void	philo_sleeps(t_philo *philo)
 {
-	print_time_n_index(philo);
-	printf(BLUE);
-	printf("thinking\n");
-	printf(WHITE);
+	long long end;
+
+	print_time_n_index(philo, "is sleeping", BLUE);
+	//////////////////////////
 	pthread_mutex_lock(philo->rules->time_to_sleep_m);
-	usleep(philo->rules->time_to_sleep * 1000);
+	end = get_time(0) + philo->rules->time_to_sleep;
+	while (get_time(0) < end)
+		usleep(philo->rules->time_to_sleep / 1000);
 	pthread_mutex_unlock(philo->rules->time_to_sleep_m);
+
 }
