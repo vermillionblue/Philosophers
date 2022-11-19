@@ -6,7 +6,7 @@
 /*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 18:25:31 by danisanc          #+#    #+#             */
-/*   Updated: 2022/11/19 22:21:44 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/11/19 23:29:35 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	check_lastmeal(t_rules *data, int i)
 	{
 		pthread_mutex_unlock(&data->philos[i].lastmeal_m);
 		print_time_n_index(&data->philos[i], "has died", RED);
+		pthread_mutex_lock(&data->print_m);
 		pthread_mutex_lock(&data->exit_m);
 		data->exit = 1;
 		pthread_mutex_unlock(&data->exit_m);
