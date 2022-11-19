@@ -6,7 +6,7 @@
 /*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:41:06 by danisanc          #+#    #+#             */
-/*   Updated: 2022/11/19 18:40:17 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/11/19 22:21:54 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,11 @@ long int	ft_atol(const char *str);
 int			ft_isdigit(int c);
 void		enter_data(char **argv, t_rules *rules);
 long		get_time(long start_time);
+
 typedef struct s_philo
 {
 	pthread_t		pt_id;
+	int				eaten_all_meals;
 	int				philo_index;
 	long			lastmeal;
 	pthread_mutex_t	lastmeal_m;
@@ -48,6 +50,7 @@ typedef struct s_philo
 	pthread_mutex_t	*left_f;
 	pthread_mutex_t	*right_f;
 }				t_philo;
+
 typedef struct s_rules
 {
 	int					n_philos;

@@ -6,7 +6,7 @@
 /*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 15:45:52 by danisanc          #+#    #+#             */
-/*   Updated: 2022/11/19 18:10:56 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/11/19 22:14:32 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	init_data(t_rules *data)
 		pthread_mutex_init(&data->forks[i], NULL);
 		pthread_mutex_init(&data->philos[i].lastmeal_m, NULL);
 		pthread_mutex_init(&data->philos[i].meals_eaten_m, NULL);
+		data->philos[i].eaten_all_meals = 0;
 		data->philos[i].rules = data;
 		data->philos[i].philo_index = i;
 		data->philos[i].dead = 0;

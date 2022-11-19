@@ -6,7 +6,7 @@
 /*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 18:25:31 by danisanc          #+#    #+#             */
-/*   Updated: 2022/11/19 19:51:51 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/11/19 22:21:44 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,24 @@ void	detach_all(t_rules *data)
 	}
 }
 
-int	check_meals_eaten(t_rules *data, int i)
+int	check_meals_eaten(t_rules *data, int i, int *philos_done)
 {
 	pthread_mutex_lock(&data->philos[i].meals_eaten_m);
 	if (data->philos[i].meals_eaten >= data->n_times_to_eat
+		&& data->philos[i].eaten_all_meals == 0
 		&& data->n_times_to_eat != -1)
 	{
-		pthread_mutex_lock(&data->exit_m);
-		data->exit = 1;
-		pthread_mutex_unlock(&data->exit_m);
-		usleep(100000 * data->n_philos);
-		detach_all(data);
-		return (1);
+		*philos_done = *philos_done + 1;
+		data->philos[i].eaten_all_meals = 1;
+		if (*philos_done == data->n_philos)
+		{
+			pthread_mutex_lock(&data->exit_m);
+			data->exit = 1;
+			pthread_mutex_unlock(&data->exit_m);
+			usleep(100000 * data->n_philos);
+			detach_all(data);
+			return (1);
+		}
 	}
 	pthread_mutex_unlock(&data->philos[i].meals_eaten_m);
 	return (0);
@@ -81,7 +87,9 @@ int	check_lastmeal(t_rules *data, int i)
 void	main_checker(t_rules *data)
 {
 	int	i;
+	int	philos_done;
 
+	philos_done = 0;
 	while (1)
 	{
 		i = 0;
@@ -89,7 +97,7 @@ void	main_checker(t_rules *data)
 		{
 			if (check_lastmeal(data, i) == 1)
 				return ;
-			if (check_meals_eaten(data, i) == 1)
+			if (check_meals_eaten(data, i, &philos_done) == 1)
 				return ;
 			i++;
 		}
