@@ -6,7 +6,7 @@
 #    By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/04 11:40:59 by danisanc          #+#    #+#              #
-#    Updated: 2022/11/18 23:21:29 by danisanc         ###   ########.fr        #
+#    Updated: 2022/11/19 17:59:09 by danisanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ RM = rm -f
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) -pthread $(OBJ) -o $(NAME) -fsanitize=address -g 
+	$(CC) -pthread $(OBJ) -o $(NAME) 
 
 clean:
 	$(RM) *.o
@@ -37,4 +37,4 @@ re: fclean all
 
 .PHONY: all bonus clean fclean re
 
-#-g -fsanitize=address
+#-g -fsanitize=address -g  -fsanitize=thread

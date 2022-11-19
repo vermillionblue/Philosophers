@@ -6,7 +6,7 @@
 /*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 14:11:18 by danisanc          #+#    #+#             */
-/*   Updated: 2022/11/18 23:16:31 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/11/19 18:00:44 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,16 @@ long	get_time(long start_time)
 
 void	print_time_n_index(t_philo *philo, char* str, char* colorcode)
 {
-	//usleep(); maybe needed
-	usleep(200);
+	pthread_mutex_lock(&philo->rules->exit_m);
 	if (philo->rules->exit == 1)
-			return ;
+	{
+		//printf("detected by %d\n", philo->philo_index);
+		pthread_mutex_unlock(&philo->rules->exit_m);
+		usleep(100000000);
+	}
+	pthread_mutex_unlock(&philo->rules->exit_m);
+	pthread_mutex_lock(&philo->rules->print_m);
 	printf("%s%ld ms %s", CYAN, get_time(philo->rules->start_time), WHITE);
-	printf("%d %s%s%s\n", philo->philo_index, colorcode, str, WHITE);
-	philo->meals_eaten++;
+	printf("%d %s%s%s\n", philo->philo_index + 1, colorcode, str, WHITE);
+	pthread_mutex_unlock(&philo->rules->print_m);
 }

@@ -6,7 +6,7 @@
 /*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:41:06 by danisanc          #+#    #+#             */
-/*   Updated: 2022/11/18 23:33:06 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/11/19 16:51:04 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ typedef struct	s_philo
 	pthread_t		pt_id;
 	int				philo_index; //non-zero index
 	long			lastmeal;
+	pthread_mutex_t	lastmeal_m;
 	t_rules			*rules;
 	int				meals_eaten;
+	pthread_mutex_t	meals_eaten_m;
 	int				dead;
 	pthread_mutex_t	*left_f;
 	pthread_mutex_t	*right_f;
@@ -51,6 +53,7 @@ typedef struct	s_philo
 typedef struct	s_rules
 {
 	int					n_philos;
+	pthread_mutex_t		print_m;
 	pthread_mutex_t		*forks;
 	long				start_time;
 	long				time_to_die;
@@ -58,6 +61,7 @@ typedef struct	s_rules
 	long				time_to_sleep;
 	int					n_times_to_eat;
 	int					exit;
+	pthread_mutex_t		exit_m;
 	t_philo				*philos;
 }				t_rules;
 //// utils

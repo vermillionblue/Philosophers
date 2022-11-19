@@ -6,7 +6,7 @@
 /*   By: danisanc <danisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 19:50:41 by danisanc          #+#    #+#             */
-/*   Updated: 2022/11/18 23:28:27 by danisanc         ###   ########.fr       */
+/*   Updated: 2022/11/19 15:24:45 by danisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*routine_start(void *param)
 	phi = (t_philo *)param;
 	if ((phi->philo_index) % 2 == 0)
 		usleep(2000);
-	while (phi->rules->exit != 1)
+	while (1)
 	{
 		philo_eats(phi);
 		philo_sleephinks(phi);
@@ -57,18 +57,16 @@ void	philo_eats(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_f);
 	print_time_n_index(philo, "has taken left fork", WHITE);
-	if (philo->rules->n_philos == 1)
-	{
-		print_time_n_index(philo, "is dead", RED);
-		exit(EXIT_SUCCESS);
-	}
 	pthread_mutex_lock(philo->right_f);
 	print_time_n_index(philo, "has taken right fork", WHITE);
+	pthread_mutex_lock(&philo->lastmeal_m);
+	philo->lastmeal = get_time(philo->rules->start_time);
+	pthread_mutex_unlock(&philo->lastmeal_m);
 	print_time_n_index(philo, "is eating", YELLOW);
 	waiting4it(philo->rules->time_to_eat);
-	philo->lastmeal = get_time(philo->rules->start_time) - philo->lastmeal;
-	printf("st  %ld \n", get_time(philo->rules->start_time));
-	printf("last meal was %ld ago \n", philo->lastmeal);
+	pthread_mutex_lock(&philo->meals_eaten_m);
+	philo->meals_eaten++;
+	pthread_mutex_unlock(&philo->meals_eaten_m);
 	pthread_mutex_unlock(philo->left_f);
 	pthread_mutex_unlock(philo->right_f);
 }
